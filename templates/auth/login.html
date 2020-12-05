@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
+    <div class="container formMargin">
+    <h1 class="text-center">Login</h1>
     <form method="post" action="{% url 'login user' %}">
-        {{ form }}
+        {% csrf_token %}
+    <div class="form-group">
+        {{ form.username.label }}
+        {{ form.username }}
+    </div>
+        <div class="form-group">
+        {{ form.password.label }}
+        {{ form.password }}
+            {% for message in messages %}
+                <small style="color:red;">{{ message }}</small>
+            {% endfor %}
+        </div>
+        <button class="btn btn-primary">Submit</button>
     </form>
+    </div>
 {% endblock %}

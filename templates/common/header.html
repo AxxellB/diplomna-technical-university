@@ -12,7 +12,7 @@
 
             <!-- logo -->
             <h1 class="navbar-brand">
-                <a href="#body">Blue</a>
+                <a href="{% url 'index' %}">DjangoForum</a>
             </h1>
             <!-- /logo -->
         </div>
@@ -20,12 +20,17 @@
         <!-- main nav -->
         <nav class="collapse navbar-collapse navbar-right" role="navigation">
             <ul id="nav" class="nav navbar-nav">
-                <li><a href="#body">Home</a></li>
-                <li><a href="#service">Forum</a></li>
-                <li><a href="#portfolio">Login</a></li>
-                <li><a href="#testimonials">Register</a></li>
-                <li><a href="#price">About Us</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href={% url 'index' %}>Home</a></li>
+                <li><a href="{% url 'forum' %}">Forum</a></li>
+                <li><a href="">About Us</a></li>
+                <li><a href="">Contact</a></li>
+                {% if user.is_authenticated %}
+                <li><a>Hello, {{ user.username }}</a></li>
+                <li><a href={% url 'logout user' %}>Logout</a></li>
+                {% else %}
+                <li><a href={% url 'login user' %}>Login</a></li>
+                <li><a href={% url 'register user' %}>Register</a></li>
+                {% endif %}
             </ul>
         </nav>
         <!-- /main nav -->

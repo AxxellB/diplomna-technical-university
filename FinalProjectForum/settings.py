@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'forum_auth',
+    'bootstrap4',
+    'forum_main'
 ]
 
 MIDDLEWARE = [
@@ -79,9 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'DjangoForum',
-        'USER': 'postgres',
-        'PASSWORD': 'Zaek2009',
-        'PORT': '8080',
+
     }
 }
 
