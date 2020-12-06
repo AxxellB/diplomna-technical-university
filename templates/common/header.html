@@ -1,39 +1,135 @@
-<header id="navigation" class="navbar-inverse navbar-fixed-top animated-header">
-    <div class="container">
-        <div class="navbar-header">
-            <!-- responsive nav button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <!-- /responsive nav button -->
+{% load static %}
+<header>
+        <div class="header js-header js-dropdown">
+            <div class="container">
+                <div class="header__logo">
+                    <h1>
+                        <a href="{% url 'index' %}"><img src="{% static 'media/Logo.png' %}" alt="logo"></a>
+                    </h1>
+                    <div class="header__logo-btn"><a href="{% url 'index' %}">
+                        TalkX</a>
+                    </div>
+                </div>
+                <div class="header__search">
+                    <form action="#">
+                        <label>
+                            <i class="icon-Search js-header-search-btn-open"></i>
+                            <input type="search" placeholder="Search all forums" class="form-control">
+                        </label>
+                    </form>
+                    <div class="header__search-close js-header-search-btn-close"><i class="icon-Cancel"></i></div>
+                    <div class="header__search-btn" data-dropdown-btn="search">
+                        Topics<i class="icon-Arrow_Below"></i>
+                    </div>
+                    <div class="dropdown dropdown--design-01" data-dropdown-list="search">
+                        <ul>
+                            <li>
+                                <label>
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" checked="checked">
+                                        <i></i>
+                                    </label>Search Titles Only
+                                </label>
 
-            <!-- logo -->
-            <h1 class="navbar-brand">
-                <a href="{% url 'index' %}">DjangoForum</a>
-            </h1>
-            <!-- /logo -->
+                            </li>
+                            <li>
+                                <label>
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox">
+                                        <i></i>
+                                    </label>Show Results as Posts
+                                </label>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="icon-Advanced_Search"></i>Advanced Search
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header__menu">
+                    <div class="header__menu-btn" data-dropdown-btn="menu">
+                        Latest Topics<i class="icon-Menu_Icon"></i>
+                    </div>
+                    <nav class="dropdown dropdown--design-01" data-dropdown-list="menu">
+                        <div>
+                            <ul class="dropdown__catalog row">
+                                <li class="col-xs-6"><a href="#">New</a></li>
+                                <li class="col-xs-6"><a href="#">Unread</a></li>
+                                <li class="col-xs-6"><a href="#">Groups</a></li>
+                                <li class="col-xs-6"><a href="#">Users</a></li>
+                                <li class="col-xs-6"><a href="#">Tags</a></li>
+                                <li class="col-xs-6"><a href="#">Shortcuts</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>Categories</h3>
+                            <ul class="dropdown__catalog row">
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-f9bc64"></i>Hobbies</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-348aa7"></i>Social</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-4436f8"></i>Video</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-5dd39e"></i>Random</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-ff755a"></i>Arts</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-bce784"></i>Tech</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-83253f"></i>Gaming</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-c49bbb"></i>Science</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-3ebafa"></i>Exchange</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-c6b38e"></i>Pets</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-a7cdbd"></i>Entertainment</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-525252"></i>Education</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-777da7"></i>Q&amp;As</a></li>
+                                <li class="col-xs-6"><a href="#" class="category"><i class="bg-368f8b"></i>Politics</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="dropdown__catalog row">
+                                <li class="col-xs-6"><a href="#">Support</a></li>
+                                <li class="col-xs-6"><a href="#">Forum Rules</a></li>
+                                <li class="col-xs-6"><a href="#">Blog</a></li>
+                                <li class="col-xs-6"><a href="#">About</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="header__user">
+                    {% if user.is_authenticated %}
+                    <div class="header__user-btn" data-dropdown-btn="user">
+                        <img src="https://eu.ui-avatars.com/api/?name={{ user.username }}&size=128'&background=random&length=1&rounded=true&uppercase=true" alt="avatar">
+                        {{ user.username }}<i class="icon-Arrow_Below"></i>
+                    </div>
+                    {% else %}
+                        <span><a href="{% url 'login user' %}">Login</a>/</span>
+                        <span><a href="{% url 'register user' %}">Register</a></span>
+                    {% endif %}
+                    <nav class="dropdown dropdown--design-01" data-dropdown-list="user">
+                        <div>
+                            <div class="dropdown__icons">
+                                <a href="#"><i class="icon-Bookmark"></i></a>
+                                <a href="#"><i class="icon-Message"></i></a>
+                                <a href="#"><i class="icon-Preferences"></i></a>
+                                <a href="{% url 'logout user' %}"><i class="icon-Logout"></i></a>
+                            </div>
+                        </div>
+                        <div>
+                            <ul class="dropdown__catalog">
+                                <li><a href="#">Dashboard</a></li>
+                                <li><a href="#">Badges</a></li>
+                                <li><a href="#">My Groups</a></li>
+                                <li><a href="#">Notifications</a></li>
+                                <li><a href="#">Topics</a></li>
+                                <li><a href="#">Likes</a></li>
+                                <li><a href="#">Solved</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="header__offset-btn">
+                <a href="{% url 'create post' %}"><img src="{% static 'media/New_Topic.svg' %}" alt="New Post"></a>
+                </div>
+            {% endif %}
+            </div>
         </div>
-
-        <!-- main nav -->
-        <nav class="collapse navbar-collapse navbar-right" role="navigation">
-            <ul id="nav" class="nav navbar-nav">
-                <li><a href={% url 'index' %}>Home</a></li>
-                <li><a href="{% url 'forum' %}">Forum</a></li>
-                <li><a href="">About Us</a></li>
-                <li><a href="">Contact</a></li>
-                {% if user.is_authenticated %}
-                <li><a>Hello, {{ user.username }}</a></li>
-                <li><a href={% url 'logout user' %}>Logout</a></li>
-                {% else %}
-                <li><a href={% url 'login user' %}>Login</a></li>
-                <li><a href={% url 'register user' %}>Register</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-        <!-- /main nav -->
-
-    </div>
-</header>
+    </header>

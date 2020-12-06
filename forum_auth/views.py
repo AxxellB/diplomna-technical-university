@@ -1,5 +1,6 @@
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -8,6 +9,7 @@ from django.contrib import messages
 from forum_auth.forms import RegisterForm, LoginForm
 
 
+@transaction.atomic
 def register_user(request):
     if request.method == 'GET':
         context = {
@@ -20,7 +22,7 @@ def register_user(request):
             login(request, user)
             return redirect('index')
         context = {
-            'form': form
+            'form': form,
         }
 
     return render(request, context=context, template_name='auth/register.html')
