@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -39,6 +40,6 @@ class Post(models.Model):
         ('SOCIAL', 'Social'),
     ]
     category = models.CharField(max_length=15, choices=category_choices, default='Hobbies')
-    tags = models.CharField(max_length=15, choices=tags_choices, default='Social')
+    tag = models.CharField(max_length=15, choices=tags_choices, default='Gaming')
     is_mature = models.BooleanField(default=False)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
