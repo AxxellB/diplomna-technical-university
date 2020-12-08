@@ -4,7 +4,7 @@
     <main>
         <div class="container">
             <div class="create">
-                <form method="post" id="create_post" action="{% url 'create post' %}">
+                <form method="post" id="create_post" action="{% url 'create thread' %}">
                     {% csrf_token %}
                     <div class="create__head">
                         <div class="create__title"><img src="{% static 'media/New_Topic.svg' %}" alt="New topic">Create

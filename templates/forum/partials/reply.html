@@ -1,0 +1,31 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bbpress.min.css'%}">
+</head>
+<div style=" border: 1px solid rgba(190,190,190, .5); margin-bottom: 2%">
+<div class="loop-item--1 user-id-1725 bbp-parent-forum-2290 bbp-parent-topic-133973 bbp-reply-position-2 even  post-133991 reply type-reply status-publish hentry" style="padding: 2%">
+
+	<div class="bbp-reply-author">
+
+
+		<a href="" title="View {{ reply.user }}'s profile" class="bbp-author-link"><span class="bbp-author-avatar"><img alt="" src="https://eu.ui-avatars.com/api/?name={{ reply.user }}&size=128%27&background=random&length=1&rounded=true&uppercase=true" class="avatar avatar-80 photo" height="80" width="80"></span><br><span class="bbp-author-name" style="margin-top: 8%">{{ reply.user }}</span></a>
+
+	</div><!-- .bbp-reply-author -->
+
+	<div class="bbp-reply-content">
+        {{ reply.text }}
+	</div>
+    {% if reply.user == request.user %}
+                <div style="margin-left: 84%">
+                    <a  href="{% url 'edit thread' post.pk %}" class="btn">Edit</a>
+                    <a href="{% url 'delete thread' post.pk %}" class="btn">Delete</a>
+                </div>
+        {% else %}
+                <div style="margin-left: 92%">
+                    <a  href="{% url 'edit thread' post.pk %}" class="btn">Reply</a>
+                </div>
+    {% endif %}
+
+</div>
+</div>
+</article>

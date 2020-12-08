@@ -43,3 +43,10 @@ class Post(models.Model):
     tag = models.CharField(max_length=15, choices=tags_choices, default='Gaming')
     is_mature = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    views = models.IntegerField(blank=True, null=True, default=0)
+
+
+class Reply(models.Model):
+    text = models.TextField(max_length=10000)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)

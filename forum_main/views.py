@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from forum_main.forms import CreatePostForm
-from forum_main.models import Post
+from forum_main.forms import CreatePostForm, CreateReplyForm
+from forum_main.models import Post, Reply
 
 
 def forum_view(request):
@@ -16,7 +16,7 @@ def forum_view(request):
 
 
 @login_required
-def create_post(request):
+def create_thread(request):
     if request.method == 'GET':
         context = {
             'form': CreatePostForm
@@ -48,12 +48,13 @@ def my_threads(request):
         return render(request, context=context, template_name='forum/my_threads.html')
 
 
-def edit_post(request, pk):
+def edit_thread(request, pk):
     current_post = Post.objects.get(pk=pk)
     if request.method == 'GET':
         form = CreatePostForm(instance=current_post)
         context = {
-            'form': form
+            'form': form,
+            'pk': pk
         }
     else:
         form = CreatePostForm(request.POST, instance=current_post)
@@ -67,10 +68,41 @@ def edit_post(request, pk):
     return render(request, context=context, template_name='forum/edit_thread.html')
 
 
-def delete_post(request, pk):
+def delete_thread(request, pk):
     current_post = Post.objects.get(pk=pk)
     if request.method == 'GET':
-        return render(request, template_name='forum/delete_thread.html')
+        context = {
+            'pk': pk
+        }
+        return render(request, context=context, template_name='forum/delete_thread.html')
     else:
         current_post.delete()
         return redirect('my threads')
+
+
+def thread_details(request, pk):
+    current_thread = Post.objects.get(pk=pk)
+    replies = Reply.objects.filter(post=current_thread)
+    comments_count = len(replies)
+    if request.method == 'GET':
+        current_thread.views += 1
+        current_thread.save()
+        context = {
+            'pk': pk,
+            'post': current_thread,
+            'replies': replies,
+            'comments_count': comments_count,
+        }
+        return render(request, context=context, template_name='forum/thread_details.html')
+    else:
+        form = CreateReplyForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.user = request.user
+            form.post = current_thread
+            form.save()
+            return redirect('thread details', pk)
+
+
+
+

@@ -104,22 +104,10 @@
                     {% endif %}
                     <nav class="dropdown dropdown--design-01" data-dropdown-list="user">
                         <div>
-                            <div class="dropdown__icons">
-                                <a href="#"><i class="icon-Bookmark"></i></a>
-                                <a href="#"><i class="icon-Message"></i></a>
-                                <a href="#"><i class="icon-Preferences"></i></a>
-                                <a href="{% url 'logout user' %}"><i class="icon-Logout"></i></a>
-                            </div>
-                        </div>
-                        <div>
                             <ul class="dropdown__catalog">
-                                <li><a href="#">Dashboard</a></li>
-                                <li><a href="#">Badges</a></li>
-                                <li><a href="#">My Groups</a></li>
-                                <li><a href="#">Notifications</a></li>
-                                <li><a href="#">Topics</a></li>
-                                <li><a href="#">Likes</a></li>
-                                <li><a href="#">Solved</a></li>
+                                <li><a href="#">My Profile</a></li>
+                                <li><a href="{% url 'my threads' %}">My Threads</a></li>
+                                <li><a href="{% url 'logout user' %}">Logout</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -127,7 +115,7 @@
             </div>
             {% if user.is_authenticated %}
                 <div class="header__offset-btn">
-                <a href="{% url 'create post' %}"><img src="{% static 'media/New_Topic.svg' %}" alt="New Post"></a>
+                <a href="{% url 'create thread' %}"><img src="{% static 'media/New_Topic.svg' %}" alt="New Post"></a>
                 </div>
             {% endif %}
             </div>

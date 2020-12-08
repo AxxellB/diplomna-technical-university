@@ -2,7 +2,7 @@
     <div class="posts__section-left">
         <div class="posts__topic">
             <div class="posts__content">
-                <a href="#">
+                <a href="{% url 'thread details' post.pk %}">
                     <h3>{{ post.name }}</h3>
                 </a>
                 <div class="posts__tags tags">
@@ -10,8 +10,8 @@
                 </div>
                 {% if show_buttons %}
                 <div>
-                    <a href="{% url 'edit post' post.pk %}" class="btn btn-warning">Edit</a>
-                    <a href="{% url 'delete post' post.pk %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'edit thread' post.pk %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'delete thread' post.pk %}" class="btn btn-danger">Delete</a>
                 </div>
                 {% endif %}
             </div>
@@ -23,7 +23,7 @@
         <div class="posts__users">
         </div>
         <div class="posts__replies">305</div>
-        <div class="posts__views">2.1k</div>
+        <div class="posts__views">{{ post.views }}</div>
         <div class="posts__activity">6m</div>
     </div>
 </div>

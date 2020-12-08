@@ -4,7 +4,7 @@
     <main>
         <div class="container">
             <div class="create">
-                <form method="post" id="delete_post" action="{% url 'delete post' pk %}">
+                <form method="post" id="delete_post" action="{% url 'delete thread' pk %}">
                     <h1 class="text-center">Are you sure you wish to delete this thread?</h1>
                     <small style="margin-left: 37%">Warning: Deleted threads will disappear forever!</small>
                     {% csrf_token %}
