@@ -44,6 +44,9 @@ class Post(models.Model):
     is_mature = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     views = models.IntegerField(blank=True, null=True, default=0)
+    replies = models.IntegerField(blank=True, null=True, default=0)
+    tag_color = models.CharField(max_length=20, null=True, blank=True)
+    category_color = models.CharField(max_length=20, null=True, blank=True)
 
 
 class Reply(models.Model):

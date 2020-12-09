@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from forum_main.color_maps import tag_color_map, category_color_map
 from forum_main.forms import CreatePostForm, CreateReplyForm
 from forum_main.models import Post, Reply
 
@@ -24,7 +25,11 @@ def create_thread(request):
     else:
         form = CreatePostForm(request.POST)
         if form.is_valid():
+            tag_color = tag_color_map[form.cleaned_data['tag']]
+            category_color = category_color_map[form.cleaned_data['category']]
             form = form.save(commit=False)
+            form.tag_color = tag_color
+            form.category_color = category_color
             form.user = request.user
             form.save()
             return redirect('index')
@@ -84,6 +89,7 @@ def thread_details(request, pk):
     current_thread = Post.objects.get(pk=pk)
     replies = Reply.objects.filter(post=current_thread)
     comments_count = len(replies)
+
     if request.method == 'GET':
         current_thread.views += 1
         current_thread.save()
@@ -101,6 +107,8 @@ def thread_details(request, pk):
             form.user = request.user
             form.post = current_thread
             form.save()
+            current_thread.replies += 1
+            current_thread.save()
             return redirect('thread details', pk)
 
 

@@ -6,7 +6,7 @@
                     <h3>{{ post.name }}</h3>
                 </a>
                 <div class="posts__tags tags">
-                    <a href="#" class="bg-4f80b0">{{ post.tag }}</a>
+                    <a href="#" class="{{ post.tag_color }}">{{ post.tag }}</a>
                 </div>
                 {% if show_buttons %}
                 <div>
@@ -16,13 +16,13 @@
                 {% endif %}
             </div>
         </div>
-        <div class="posts__category"><a href="#" class="category"><i class="bg-5dd39e"></i> {{ post.category }}</a>
+        <div class="posts__category"><a href="#" class="category"><i class="{{ post.category_color }}"></i> {{ post.category }}</a>
         </div>
     </div>
     <div class="posts__section-right">
         <div class="posts__users">
         </div>
-        <div class="posts__replies">305</div>
+        <div class="posts__replies">{{ post.replies }}</div>
         <div class="posts__views">{{ post.views }}</div>
         <div class="posts__activity">6m</div>
     </div>
