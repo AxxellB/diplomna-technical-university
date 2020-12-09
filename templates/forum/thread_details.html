@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div style="margin-left: 1.5%">Comments: {{ comments_count }}</div>
-
+                {% if user.is_authenticated %}
                 <div class="create__section create__textarea" style="margin-left:1.5%">
                     <label class="create__label" for="description">Comment as <a href=""
                                                                                  style="color:#0A85BB">{{ user }}</a>
@@ -53,6 +53,9 @@
                     </form>
                     <div style="border-bottom: 1.5px solid darkgray"></div>
                     <div style="margin-top: 1.5%">
+                    {% else %}
+                        <h4 class="text-center">You must be logged in to comment. <a style="color: #2e6da4" href="{% url 'login user' %}">Click here to login</a></h4>
+                    {% endif %}
                         {% for reply in replies %}
                             {% include 'forum/partials/reply.html' %}
                         {% endfor %}
