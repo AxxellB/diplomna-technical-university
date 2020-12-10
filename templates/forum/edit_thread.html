@@ -14,6 +14,7 @@
                     <div class="create__section">
                         <label class="create__label" for="title">Thread Title</label>
                         <input type="text" class="form-control" name="name" value="{{ form.name.value }}" id="id_name" placeholder="Add here">
+                        {{ form.name.errors }}
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -56,6 +57,7 @@
                             </div>
                             <textarea class="form-control" name="description" id="id_description"
                                       placeholder="Lets write something cool!">{{ form.description.value }}</textarea>
+                                {{ form.description.errors }}
                         </div>
                         <div class="create__advanced">
                             <div class="row" style="margin-left:1.5%">
@@ -63,20 +65,8 @@
                                     <div class="create__section">
                                         <label class="create__label">Is this a Mature Thread?</label>
                                         <div class="create__radio">
-                                            <label class="create__box">
-                                                <label class="custom-radio">
-                                                    <input type="radio" id="mature" name="is_mature" value="Yes">
-                                                    <i></i>
-                                                </label>
-                                                <span>Yes</span>
-                                            </label>
-                                            <label class="create__box">
-                                                <label class="custom-radio">
-                                                    <input type="radio" id="not_mature" value="No" name="is_mature">
-                                                    <i></i>
-                                                </label>
-                                                <span>No</span>
-                                            </label>
+                                            {{ form.is_mature }}
+                                            {{ form.is_mature.errors }}
                                         </div>
                                     </div>
                                 </div>

@@ -11,42 +11,13 @@
                     </div>
                 </div>
                 <div class="header__search">
-                    <form action="#">
+                    <form action="{% url 'index' %}" method="get">
                         <label>
                             <i class="icon-Search js-header-search-btn-open"></i>
-                            <input type="search" placeholder="Search all forums" class="form-control">
+                            <input type="search" placeholder="Search for threads" class="form-control" value="{{ query }}" name="q" id="id_q">
                         </label>
                     </form>
-                    <div class="header__search-close js-header-search-btn-close"><i class="icon-Cancel"></i></div>
-                    <div class="header__search-btn" data-dropdown-btn="search">
-                        Topics<i class="icon-Arrow_Below"></i>
-                    </div>
-                    <div class="dropdown dropdown--design-01" data-dropdown-list="search">
-                        <ul>
-                            <li>
-                                <label>
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" checked="checked">
-                                        <i></i>
-                                    </label>Search Titles Only
-                                </label>
 
-                            </li>
-                            <li>
-                                <label>
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox">
-                                        <i></i>
-                                    </label>Show Results as Posts
-                                </label>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="icon-Advanced_Search"></i>Advanced Search
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="header__menu">
                     <div class="header__menu-btn" data-dropdown-btn="menu">
@@ -105,7 +76,7 @@
                     <nav class="dropdown dropdown--design-01" data-dropdown-list="user">
                         <div>
                             <ul class="dropdown__catalog">
-                                <li><a href="#">My Profile</a></li>
+                                <li><a href="{% url 'user profile' request.user %}">My Profile</a></li>
                                 <li><a href="{% url 'my threads' %}">My Threads</a></li>
                                 <li><a href="{% url 'logout user' %}">Logout</a></li>
                             </ul>

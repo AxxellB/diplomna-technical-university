@@ -3,7 +3,9 @@ beautifulsoup4==4.9.3
 certifi==2020.12.5
 chardet==3.0.4
 Django==3.1.4
+django-bootstrap-pagination==1.7.1
 django-bootstrap4==2.3.1
+django-multiselectfield==0.1.12
 idna==2.10
 importlib-metadata==2.1.1
 psycopg2==2.8.6

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'forum_auth',
     'bootstrap4',
     'forum_main',
-    'multiselectfield'
+    'bootstrap_pagination',
+    'user_profile',
 ]
 
 MIDDLEWARE = [

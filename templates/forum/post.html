@@ -7,6 +7,9 @@
                 </a>
                 <div class="posts__tags tags">
                     <a href="#" class="{{ post.tag_color }}">{{ post.tag }}</a>
+                    {% if post.is_mature == 'Yes' %}
+                        <small style="color: red">This thread contains mature content!</small>
+                    {% endif %}
                 </div>
                 {% if show_buttons %}
                 <div>

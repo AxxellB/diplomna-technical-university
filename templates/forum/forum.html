@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load bootstrap_pagination %}
 {% block content %}
     <main>
-        <div class="container formMargin">
+        <div class="container">
             <div class="nav">
                 <div class="nav__categories js-dropdown">
                     <div class="nav__select">
@@ -93,14 +93,18 @@
                 </div>
             </div>
             <div class="posts__body">
-                {% if posts %}
-                    {% for post in posts %}
+                {% if page_obj %}
+                    {% for post in page_obj %}
                         {% include 'forum/post.html' %}
                     {% endfor %}
                 {% else %}
-                    <h1>There are no posts yet...</h1>
+                    <h1 class="text-center">There are no posts yet...</h1>
                 {% endif %}
+            </div>
+            <div style="margin-left: 45%">
+                {% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" %}
             </div>
         </div>
     </main>
+
 {% endblock %}

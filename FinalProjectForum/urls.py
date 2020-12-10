@@ -20,5 +20,6 @@ from FinalProjectForum.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('forum_auth.urls')),
-    path('', include('forum_main.urls'))
+    path('', include('forum_main.urls')),
+    path('', include('user_profile.urls'))
 ]
