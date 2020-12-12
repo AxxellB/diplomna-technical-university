@@ -12,14 +12,15 @@
                     {% endif %}
                 </div>
                 {% if show_buttons %}
-                <div>
-                    <a href="{% url 'edit thread' post.pk %}" class="btn btn-warning">Edit</a>
-                    <a href="{% url 'delete thread' post.pk %}" class="btn btn-danger">Delete</a>
-                </div>
+                    <div>
+                        <a href="{% url 'edit thread' post.pk %}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'delete thread' post.pk %}" class="btn btn-danger">Delete</a>
+                    </div>
                 {% endif %}
             </div>
         </div>
-        <div class="posts__category"><a href="#" class="category"><i class="{{ post.category_color }}"></i> {{ post.category }}</a>
+        <div class="posts__category"><a href="#" class="category"><i
+                class="{{ post.category_color }}"></i> {{ post.category }}</a>
         </div>
     </div>
     <div class="posts__section-right">
@@ -27,6 +28,6 @@
         </div>
         <div class="posts__replies">{{ post.replies }}</div>
         <div class="posts__views">{{ post.views }}</div>
-        <div class="posts__activity">6m</div>
+        <div class="posts__activity"></div>
     </div>
 </div>

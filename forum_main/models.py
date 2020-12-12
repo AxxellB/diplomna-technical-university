@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
+from django.utils import timezone
+
 category_choices = [
     ('HOBBIES', 'Hobbies'),
     ('VIDEO', 'Video'),
@@ -48,6 +50,10 @@ class Post(models.Model):
     replies = models.IntegerField(blank=True, null=True, default=0)
     tag_color = models.CharField(max_length=20, null=True, blank=True)
     category_color = models.CharField(max_length=20, null=True, blank=True)
+    created_date = models.DateTimeField('date created', default=timezone.now)
+
+    def __str__(self):
+        return self.name
 
 
 class Reply(models.Model):
@@ -55,6 +61,12 @@ class Reply(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
+    def __str__(self):
+        return f'User: {self.user} - reply: {self.text}'
+
 
 class Rules(models.Model):
-    text = models.TextField(max_length=20000)
+    text = models.TextField(max_length=5000)
+
+    def __str__(self):
+        return self.text

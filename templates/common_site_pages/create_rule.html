@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="create">
+            <div class="create__section create__textarea" style="margin-left:1.5%">
+                <label class="create__label" for="description">New Rule</label>
+                <form method="post" action="{% url 'add rule' %}">
+                    {% csrf_token %}
+                    <textarea class="form-control" name="text" id="id_text"
+                              placeholder="Write new rule here!"></textarea>
+                    <button class="btn btn-success" type="submit">Add Rule</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

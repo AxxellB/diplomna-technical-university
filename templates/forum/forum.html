@@ -65,20 +65,24 @@
                         <div class="btn-select" data-dropdown-btn="menu">Latest</div>
                         <div class="dropdown dropdown--design-01" data-dropdown-list="menu">
                             <ul class="dropdown__catalog">
-                                <li><a href="#">Latest</a></li>
-                                <li><a href="#">Unread</a></li>
-                                <li><a href="#">Rising</a></li>
-                                <li><a href="#">Most Liked</a></li>
-                                <li><a href="#">Follow Feed</a></li>
+                                {% if not activate_popular %}
+                                    <li class="active"><a href="{% url 'index' %}">Newest</a></li>
+                                    <li><a href="{% url 'sort by most popular' %}">Most Popular</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'index' %}">Newest</a></li>
+                                    <li class="active"><a href="{% url 'sort by most popular' %}">Most Popular</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
                     <ul>
-                        <li class="active"><a href="#">Latest</a></li>
-                        <li><a href="#">Unread</a></li>
-                        <li><a href="#">Rising</a></li>
-                        <li><a href="#">Most Liked</a></li>
-                        <li><a href="#">Follow Feed</a></li>
+                        {% if not activate_popular %}
+                            <li class="active"><a href="{% url 'index' %}">Newest</a></li>
+                            <li><a href="{% url 'sort by most popular' %}">Most Popular</a></li>
+                        {% else %}
+                            <li><a href="{% url 'index' %}">Newest</a></li>
+                            <li class="active"><a href="{% url 'sort by most popular' %}">Most Popular</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -86,10 +90,10 @@
                 <div class="posts__head">
                     <div class="posts__topic">Topic</div>
                     <div class="posts__category">Category</div>
-                    <div class="posts__users">Users</div>
+                    <div class="posts__users"></div>
                     <div class="posts__replies">Replies</div>
                     <div class="posts__views">Views</div>
-                    <div class="posts__activity">Activity</div>
+                    <div class="posts__activity"></div>
                 </div>
             </div>
             <div class="posts__body">
@@ -97,13 +101,14 @@
                     {% for post in page_obj %}
                         {% include 'forum/post.html' %}
                     {% endfor %}
+                    <div style="margin-left: 45%">
+                        {% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" %}
+                    </div>
                 {% else %}
                     <h1 class="text-center">There are no posts yet...</h1>
                 {% endif %}
             </div>
-            <div style="margin-left: 45%">
-                {% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" %}
-            </div>
+
         </div>
     </main>
 

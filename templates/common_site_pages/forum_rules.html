@@ -2,8 +2,9 @@
 {% block content %}
     <div class="container" style="background-color: #ffffff">
         <h1 class="text-center">Forum Rules</h1>
+        {% if perms.rules.add_rules %}<a href="{% url 'add rule' %}"  class="btn btn-success">Add New Rule</a>{% endif %}
         {% for rule in rules %}
-            {{ rule.text }}
+            {% include 'common_site_pages/partials/rule.html' %}
         {% endfor %}
     </div>
 {% endblock %}

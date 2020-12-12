@@ -1,5 +1,5 @@
 {% load static %}
-    <footer style="position: absolute; width:100%; height: 2.5rem">
+    <footer style="position: absolute; width:100%; bottom: 0; max-height: 2.5rem">
         <div class="footer js-dropdown">
             <div class="container">
                 <div class="footer__logo">
@@ -10,20 +10,13 @@
                 <div class="footer__nav">
                     <div class="footer__tline">
                         <ul class="footer__menu" style="margin-left: 33.5%">
-                            <li><a href="#">Support</a></li>
                             <li><a href="{% url 'forum rules' %}">Forum Rules</a></li>
                             <li><a href="{% url 'contacts' %}">Contact Us</a></li>
-                            <li><a href="#">The Team</a></li>
                         </ul>
-                        <div class="footer__language">
-                        </div>
                     </div>
-                    <div class="footer__tline" style="margin-left: 29.5%">
+                    <div class="footer__tline" style="margin-left: 35%">
                         <ul class="footer__menu">
                             <li class="footer__copyright"><span>&copy; 2020 TalkX Forums</span></li>
-                            <li><a href="#">Teams</a></li>
-                            <li><a href="#">Privacy</a></li>
-                            <li><a href="#">Send Feedback</a></li>
                         </ul>
                 </div>
             </div>

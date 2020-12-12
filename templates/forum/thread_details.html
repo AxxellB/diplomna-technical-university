@@ -22,26 +22,9 @@
                 <div style="margin-left: 1.5%">Comments: {{ comments_count }}</div>
                 {% if user.is_authenticated %}
                 <div class="create__section create__textarea" style="margin-left:1.5%">
-                    <label class="create__label" for="description">Comment as <a href=""
+                    <label class="create__label" for="description">Comment as <a href="{% url 'user profile' request.user %}"
                                                                                  style="color:#0A85BB">{{ user }}</a>
                     </label>
-                    <div class="create__textarea-head">
-                        <span><i class="icon-Quote"></i></span>
-                        <span><i class="icon-Bold"></i></span>
-                        <span><i class="icon-Italic"></i></span>
-                        <div class="create__textarea-separate"></div>
-                        <span><i class="icon-Share_Topic"></i></span>
-                        <span><i class="icon-BlockQuote"></i></span>
-                        <span><i class="icon-Performatted"></i></span>
-                        <span><i class="icon-Upload_Files"></i></span>
-                        <span class="create__textarea-separate"></span>
-                        <span><i class="icon-Bullet_List"></i></span>
-                        <span><i class="icon-heading"></i></span>
-                        <span><i class="icon-Horizontal_Line"></i></span>
-                        <span><i class="icon-Emoticon"></i></span>
-                        <span><i class="icon-Settings"></i></span>
-                        <span><i class="icon-Color_Picker"></i></span>
-                    </div>
                     <form style="margin-bottom: 1.5%;" id="post_comment" method="POST"
                           action="{% url 'thread details' pk %}">
                         {% csrf_token %}

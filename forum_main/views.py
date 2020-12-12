@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 from forum_main.color_maps import tag_color_map, category_color_map
-from forum_main.forms import CreatePostForm, CreateReplyForm, ContactForm
+from forum_main.forms import CreatePostForm, CreateReplyForm, ContactForm, RulesForm
 from forum_main.models import Post, Reply, Rules
 
 
@@ -19,7 +19,7 @@ def forum_view(request):
     if query != "":
         posts = get_forum_queryset(query)
     else:
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by('-created_date')
 
     paginator = Paginator(posts, 5)
 
@@ -30,6 +30,26 @@ def forum_view(request):
         'page_obj': page_obj
     }
     return render(request, 'forum/forum.html', context)
+
+
+def forum_view_most_popular(request):
+        query = request.GET.get('q', "")
+        if query != "":
+            posts = get_forum_queryset(query)
+        else:
+            posts = Post.objects.all().order_by('-replies', '-views')
+
+        paginator = Paginator(posts, 5)
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        activate_popular = True
+        context = {
+            'query': str(query),
+            'page_obj': page_obj,
+            'activate_popular': activate_popular
+        }
+        return render(request, 'forum/forum.html', context)
 
 
 @login_required
@@ -62,9 +82,13 @@ def my_threads(request):
     if request.method == 'GET':
         user = request.user
         my_posts = Post.objects.filter(user=user)
+        paginator = Paginator(my_posts, 4)
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
         show_buttons = True
         context = {
-            'posts': my_posts,
+            'posts': page_obj,
             'show_buttons': show_buttons
         }
         return render(request, context=context, template_name='forum/my_threads.html')
@@ -173,8 +197,55 @@ def contacts(request):
 
 def rules(request):
     if request.method == 'GET':
-        rules = Rules.objects.all()
+        rules = Rules.objects.all().order_by('id')
         return render(request, 'common_site_pages/forum_rules.html', {'rules': rules})
+
+
+def add_rule(request):
+    if request.method == 'GET':
+        context = {}
+        context['form'] = RulesForm
+    else:
+        form = RulesForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('forum rules')
+        context = {
+            'form': form
+        }
+    return render(request, 'common_site_pages/create_rule.html', context)
+
+def edit_rule(request, pk):
+    current_rule = Rules.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = RulesForm(instance=current_rule)
+        context = {
+            'form': form,
+            'pk': pk
+        }
+    else:
+        form = RulesForm(request.POST, instance=current_rule)
+        if form.is_valid():
+            form.save()
+            return redirect('forum rules')
+        context = {
+            'form': form,
+            'pk': pk
+        }
+
+    return render(request, 'common_site_pages/edit_rule.html', context)
+
+
+def delete_rule(request, pk):
+    current_rule = Rules.objects.get(pk=pk)
+    if request.method == 'GET':
+        context = {
+            'pk': pk
+        }
+        return render(request, context=context, template_name='common_site_pages/delete_rule.html')
+    else:
+        current_rule.delete()
+        return redirect('forum rules')
 
 
 

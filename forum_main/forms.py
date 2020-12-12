@@ -1,13 +1,14 @@
 from django import forms
 
-from forum_main.models import Post, Reply
+from forum_main.models import Post, Reply, Rules
+
 is_mature_choices = [('Yes', 'Yes'), ('No', 'No')]
 
 
 class CreatePostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ('user', 'views', 'tag_color', 'category_color',)
+        exclude = ('user', 'views', 'tag_color', 'category_color', 'created_date')
 
 
 class CreateReplyForm(forms.ModelForm):
@@ -33,3 +34,9 @@ class ContactForm(forms.Form):
         message = cleaned_data.get('message')
         if not name and not email and not message:
             raise forms.ValidationError('This field is required!')
+
+
+class RulesForm(forms.ModelForm):
+    class Meta:
+        model = Rules
+        fields = '__all__'

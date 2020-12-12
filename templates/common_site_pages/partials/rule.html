@@ -1,0 +1,7 @@
+<div class="posts__item">
+    <div>{{ rule.text }}</div>
+        <div style="position: relative; margin-left: 2%">
+            {% if perms.rules.change_rules %}<a href="{% url 'edit rule' rule.pk %}" style="margin-right: 2%" class="btn">Edit</a>{% endif %}
+            {% if perms.rules.delete_rules %}<a href="{% url 'delete rule' rule.pk %}" class="btn">Delete</a>{% endif %}
+        </div>
+</div>

@@ -43,7 +43,7 @@ def login_user(request):
                 login(request, user)
                 return redirect('index')
             else:
-                messages.info(request, 'Incorrect username or password!')
+                messages.error(request, 'Incorrect username or password!')
         context = {
             'form': form
         }
