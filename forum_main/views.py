@@ -21,7 +21,7 @@ def forum_view(request):
     else:
         posts = Post.objects.all().order_by('-created_date')
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 6)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -39,7 +39,7 @@ def forum_view_most_popular(request):
         else:
             posts = Post.objects.all().order_by('-replies', '-views')
 
-        paginator = Paginator(posts, 5)
+        paginator = Paginator(posts, 6)
 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)

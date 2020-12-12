@@ -15,16 +15,16 @@
 	<div class="bbp-reply-content">
         {{ reply.text }}
 	</div>
-    {% if reply.user == request.user %}
-                <div style="margin-left: 84%">
-                    <a  href="{% url 'edit thread' post.pk %}" class="btn">Edit</a>
-                    <a href="{% url 'delete thread' post.pk %}" class="btn">Delete</a>
-                </div>
-        {% else %}
-                <div style="margin-left: 92%">
-                    <a  href="{% url 'edit thread' post.pk %}" class="btn">Reply</a>
-                </div>
-    {% endif %}
+{#    {% if reply.user == request.user %}#}
+{#                <div style="margin-left: 84%">#}
+{#                    <a  href="" class="btn">Edit</a>#}
+{#                    <a href="" class="btn">Delete</a>#}
+{#                </div>#}
+{#        {% else %}#}
+{#                <div style="margin-left: 92%">#}
+{#                    <a  href="" class="btn">Reply</a>#}
+{#                </div>#}
+{#    {% endif %}#}
 
 </div>
 </div>
