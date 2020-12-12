@@ -1,4 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Hi</h1>
+    {% load bootstrap4 %}
+    <div class="container" style="background-color: #ffffff">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error{% else %}
+                        {{ message.tags|title }}{% endif %}!
+                    </strong> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h3 class="text-center">Change Password</h3>
+        <form action="{% url 'user profile' request.user %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form change_pass_form %}
+            <button name="change_password" class="btn btn-primary" style="margin-left: 45%">Submit</button>
+        </form>
+    </div>
+    <div class="container" style="background-color: #ffffff">
+        <h3 class="text-center">Change Email</h3>
+        <form action="{% url 'user profile' request.user %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form change_email_form %}
+            <button class="btn btn-primary" style="margin-left: 45%" name="change_email">Submit</button>
+        </form>
+    </div>
 {% endblock %}

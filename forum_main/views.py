@@ -1,13 +1,17 @@
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator
 
 # Create your views here.
 from forum_main.color_maps import tag_color_map, category_color_map
-from forum_main.forms import CreatePostForm, CreateReplyForm
-from forum_main.models import Post, Reply
+from forum_main.forms import CreatePostForm, CreateReplyForm, ContactForm
+from forum_main.models import Post, Reply, Rules
 
 
 def forum_view(request):
@@ -142,6 +146,37 @@ def get_forum_queryset(query=None):
             filtered_posts.append(post)
 
     return list(set(filtered_posts))
+
+
+def contacts(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form = ContactForm(request.POST)
+            if form.is_valid():
+                subject = form.cleaned_data['subject']
+                from_email = form.cleaned_data['email']
+                message = form.cleaned_data['message']
+                try:
+                    send_mail(subject, message, from_email, ['axxellblaze@gmail.com'])
+                    messages.success(request, 'Your email was sent successfully!')
+                    return redirect('contacts')
+                except:
+                    messages.error(request, 'Your email could not be sent! Please contact an administrator if this issue continues!')
+        return render(request, "common_site_pages/contact.html", {'form': form})
+    else:
+        context = {
+            'form': ContactForm()
+        }
+    return render(request, 'common_site_pages/contact.html', context)
+
+
+def rules(request):
+    if request.method == 'GET':
+        rules = Rules.objects.all()
+        return render(request, 'common_site_pages/forum_rules.html', {'rules': rules})
+
+
 
 
 

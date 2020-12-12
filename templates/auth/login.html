@@ -11,9 +11,16 @@
         <div class="form-group">
         {{ form.password.label }}
         {{ form.password }}
-            {% for message in messages %}
-                <small style="color:red;">{{ message }}</small>
-            {% endfor %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+     </button>
+     <strong>{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error{% else %}{{ message.tags|title }}{% endif %}!
+     </strong> {{ message }}
+ </div>
+ {% endfor %}
+ {% endif %}
         </div>
         <button class="btn btn-primary">Submit</button>
     </form>

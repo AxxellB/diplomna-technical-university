@@ -13,6 +13,8 @@ from os.path import join
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.contrib import messages
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -134,3 +136,15 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = join(BASE_DIR, 'media')
+
+# Sets the color to error messages to red
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+EMAIL_HOST = 'email-smtp.eu-west-2.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'AKIA4GFPFIFHSMBIX2MY'
+EMAIL_HOST_PASSWORD = 'BEKghcYhnTYkoWo7YfkHYrLGn+UH+vfQWgQl1UN+ex45'
+EMAIL_USE_SSL = False
+EMAIL_USE_TLS = True

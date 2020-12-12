@@ -54,3 +54,7 @@ class Reply(models.Model):
     text = models.TextField(max_length=10000)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+
+
+class Rules(models.Model):
+    text = models.TextField(max_length=20000)
