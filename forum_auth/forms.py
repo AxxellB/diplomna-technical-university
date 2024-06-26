@@ -16,7 +16,10 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email']
         widgets = {
-            'email': forms.EmailInput,
+            'email': forms.EmailInput(attrs={'placeholder': 'Your Email'}),
+        }
+        help_texts = {
+            'username': '',
         }
 
     def clean_email(self):

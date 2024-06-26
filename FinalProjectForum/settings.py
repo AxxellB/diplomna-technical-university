@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from os.path import join
 from pathlib import Path
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.contrib import messages
-
+from dotenv import load_dotenv
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -81,7 +81,6 @@ WSGI_APPLICATION = 'FinalProjectForum.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
