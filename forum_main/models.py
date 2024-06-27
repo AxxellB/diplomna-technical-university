@@ -44,7 +44,6 @@ class Post(models.Model):
     description = models.TextField(max_length=20000)
     category = models.CharField(max_length=15, choices=category_choices, default='Hobbies')
     tag = models.CharField(max_length=15, choices=tags_choices, default='Gaming')
-    is_mature = models.CharField(choices=is_mature_choices, max_length=128)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     views = models.IntegerField(blank=True, null=True, default=0)
     replies = models.IntegerField(blank=True, null=True, default=0)

@@ -2,8 +2,6 @@ from django import forms
 
 from forum_main.models import Post, Reply, Rules
 
-is_mature_choices = [('Yes', 'Yes'), ('No', 'No')]
-
 
 class CreatePostForm(forms.ModelForm):
     class Meta:

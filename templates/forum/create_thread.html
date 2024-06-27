@@ -13,15 +13,15 @@
                         <span><a href="{% url 'forum rules' %}">Forum Rules</a></span>
                     </div>
                     <div class="create__section">
-                        <label class="create__label" for="title">Thread Title</label>
-                        <input type="text" class="form-control errors" name="name" id="id_name" placeholder="Add here">
+                        <label class="create__label" for="name">Thread Title</label>
+                        <input type="text" class="form-control errors" name="name" id="name" placeholder="Add here">
                         {{ form.name.errors }}
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="create__section">
                                 <label class="create__label" for="category">Select Category</label>
-                                <label class="custom-select">
+                                <label class="custom-select" id="category">
                                     {{ form.category }}
                                 </label>
                             </div>
@@ -29,27 +29,20 @@
                         <div class="col-md-6">
                             <div class="create__section">
                                 <label class="create__label" for="tags">Add Tag</label>
-                                <label class="custom-select">
+                                <label class="custom-select" id="tags">
                                     {{ form.tag }}
                                 </label>
                             </div>
                         </div>
                         <div class="create__section create__textarea" style="margin-left:1.5%">
                             <label class="create__label" for="description">Description</label>
-                            <textarea style="width: 900px; height: 300px;" class="form-control" name="description" id="id_description"
+                            <textarea style="width: 900px; height: 300px;" class="form-control" name="description" id="description"
                                       placeholder="Lets write something cool!"></textarea>
                             {{ form.description.errors }}
                         </div>
                         <div class="create__advanced">
                             <div class="row" style="margin-left:1.5%">
                                 <div class="col-lg-2 col-xl-5">
-                                    <div class="create__section">
-                                        <label class="create__label">Is this a Mature Thread?</label>
-                                        <div class="create__radio">
-                                            {{ form.is_mature }}
-                                            {{ form.is_mature.errors }}
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col" style="margin:1.5%">
                                     <div class="create__footer" style="display: block">

@@ -3,7 +3,7 @@ from django.contrib.auth import update_session_auth_hash, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -93,7 +93,7 @@ def my_threads(request):
         }
         return render(request, context=context, template_name='forum/my_threads.html')
 
-
+@login_required
 def edit_thread(request, pk):
     current_post = Post.objects.get(pk=pk)
     if request.method == 'GET':
@@ -114,7 +114,7 @@ def edit_thread(request, pk):
 
     return render(request, context=context, template_name='forum/edit_thread.html')
 
-
+@login_required
 def delete_thread(request, pk):
     current_post = Post.objects.get(pk=pk)
     if request.method == 'GET':
@@ -160,16 +160,18 @@ def thread_details(request, pk):
 def get_forum_queryset(query=None):
     filtered_posts = []
     queries = query.split(" ")
-    for q in queries:
-        posts = Post.objects.filter(
-            Q(name__icontains=q) |
-            Q(description__icontains=q)
-        ).distinct()
+    if queries:
+        for q in queries:
+            posts = Post.objects.filter(
+                Q(name__icontains=q) |
+                Q(description__icontains=q)
+            ).distinct()
 
-        for post in posts:
-            filtered_posts.append(post)
+            for post in posts:
+                filtered_posts.append(post)
 
-    return list(set(filtered_posts))
+        return list(set(filtered_posts))
+    return list(set(Post.objects))
 
 
 def contacts(request):
@@ -179,14 +181,23 @@ def contacts(request):
             form = ContactForm(request.POST)
             if form.is_valid():
                 subject = form.cleaned_data['subject']
-                from_email = form.cleaned_data['email']
+                client_email = form.cleaned_data['email']
                 message = form.cleaned_data['message']
+                from_email = 'axxellblaze@gmail.com'
+                content = EmailMessage(
+                    subject=subject,
+                    body=message,
+                    from_email=from_email,
+                    to=[from_email],
+                    reply_to=[client_email],
+                )
                 try:
-                    send_mail(subject, message, from_email, ['axxellblaze@gmail.com'])
+                    content.send()
                     messages.success(request, 'Your email was sent successfully!')
                     return redirect('contacts')
                 except:
-                    messages.error(request, 'Your email could not be sent! Please contact an administrator if this issue continues!')
+                    messages.error(request, 'Your email could not be sent! Please contact'
+                                            ' an administrator if this issue continues!')
         return render(request, "common_site_pages/contact.html", {'form': form})
     else:
         context = {
