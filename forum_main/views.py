@@ -52,7 +52,7 @@ def forum_view_most_popular(request):
         return render(request, 'forum/forum.html', context)
 
 
-@login_required
+@login_required(login_url='login user')
 def create_thread(request):
     if request.method == 'GET':
         context = {
@@ -77,7 +77,7 @@ def create_thread(request):
     return render(request, context=context, template_name='forum/create_thread.html')
 
 
-@login_required
+@login_required(login_url='login user')
 def my_threads(request):
     if request.method == 'GET':
         user = request.user
@@ -93,7 +93,7 @@ def my_threads(request):
         }
         return render(request, context=context, template_name='forum/my_threads.html')
 
-@login_required
+@login_required(login_url='login user')
 def edit_thread(request, pk):
     current_post = Post.objects.get(pk=pk)
     if request.method == 'GET':
@@ -114,7 +114,7 @@ def edit_thread(request, pk):
 
     return render(request, context=context, template_name='forum/edit_thread.html')
 
-@login_required
+@login_required(login_url='login user')
 def delete_thread(request, pk):
     current_post = Post.objects.get(pk=pk)
     if request.method == 'GET':

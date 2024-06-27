@@ -13,8 +13,8 @@
                 </div>
                 {% if show_buttons %}
                     <div>
-                        <a href="{% url 'edit thread' post.pk %}" class="btn btn-warning">Edit</a>
-                        <a href="{% url 'delete thread' post.pk %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'edit thread' post.pk %}" class="btn btn-warning" style="padding: 6px 9px; font-size: 15px;">Edit</a>
+                        <a href="{% url 'delete thread' post.pk %}" class="btn btn-danger" style="padding: 6px 9px; font-size: 15px;">Delete</a>
                     </div>
                 {% endif %}
             </div>

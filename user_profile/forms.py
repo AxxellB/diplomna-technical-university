@@ -1,4 +1,5 @@
 from django import forms
+from django.http import request
 
 
 class ChangeEmailForm(forms.Form):
@@ -12,7 +13,7 @@ class ChangeEmailForm(forms.Form):
     )
     new_email1 = forms.EmailField(
         label='New Email',
-        widget=forms.EmailInput()
+        widget=forms.EmailInput(),
     )
     new_email2 = forms.EmailField(
         label='Confirm New Email',

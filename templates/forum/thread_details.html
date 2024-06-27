@@ -22,7 +22,7 @@
                 <div style="margin-left: 1.5%">Comments: {{ comments_count }}</div>
                 {% if user.is_authenticated %}
                 <div class="create__section create__textarea" style="margin-left:1.5%">
-                    <label class="create__label" for="description">Comment as <a href="{% url 'user profile' request.user %}"
+                    <label class="create__label" for="id_text">Comment as <a href="{% url 'user profile' request.user %}"
                                                                                  style="color:#0A85BB">{{ user }}</a>
                     </label>
                     <form style="margin-bottom: 1.5%;" id="post_comment" method="POST"

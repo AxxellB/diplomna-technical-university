@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
     {% load bootstrap4 %}
-    <div class="container" style="background-color: #ffffff">
+    <div class="container" style="background-color: #ffffff; padding:2%">
+        <h3 class="text-center">My Profile</h3>
             {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
@@ -14,17 +15,18 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <h3 class="text-center">Change Password</h3>
+        <h5 class="text-center">Change Password</h5>
         <form action="{% url 'user profile' request.user %}" method="post">
             {% csrf_token %}
             {% bootstrap_form change_pass_form %}
-            <button name="change_password" class="btn btn-primary" style="margin-left: 45%">Submit</button>
+            <button name="change_password" class="btn btn-primary" style="margin-left: 46%">Submit</button>
         </form>
     </div>
-    <div class="container" style="background-color: #ffffff">
-        <h3 class="text-center">Change Email</h3>
+    <div class="container" style="background-color: #ffffff; padding:0 2% 2%">
+        <h5 class="text-center">Change Email</h5>
         <form action="{% url 'user profile' request.user %}" method="post">
             {% csrf_token %}
+            <div class="form-control">Current Email: {{ current_email }}</div>
             {% bootstrap_form change_email_form %}
             <button class="btn btn-primary" style="margin-left: 45%" name="change_email">Submit</button>
         </form>
