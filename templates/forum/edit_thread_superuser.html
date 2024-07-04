@@ -4,7 +4,7 @@
     <main>
         <div class="container" style="margin-bottom: 3%">
             <div class="create">
-                <form method="post" id="edit_post" action="{% url 'edit thread' pk %}">
+                <form method="post" id="edit_post_superuser" action="{% url 'edit thread superuser' pk %}">
                     {% csrf_token %}
                     <div class="create__head">
                         <div class="create__title"><img src="{% static 'media/New_Topic.svg' %}" alt="New topic">Edit Thread
@@ -45,9 +45,9 @@
                                 </div>
                                 <div class="col" style="margin:1.5%">
                                     <div class="create__footer" style="display: block">
-                                        <a href="{% url 'my threads' %}" class="create__btn-cansel btn">Cancel</a>
+                                        <a href="{% url 'index' %}" class="create__btn-cansel btn">Cancel</a>
                                         <a href="javascript:;"
-                                           onclick="document.getElementById('edit_post').submit();"
+                                           onclick="document.getElementById('edit_post_superuser').submit();"
                                            class="create__btn-create btn btn--type-02">Edit Thread</a>
                                     </div>
                                 </div>

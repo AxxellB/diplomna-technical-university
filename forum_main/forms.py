@@ -1,6 +1,6 @@
 from django import forms
 
-from forum_main.models import Post, Reply, Rules
+from forum_main.models import Post, Reply, Rule
 
 
 class CreatePostForm(forms.ModelForm):
@@ -36,5 +36,5 @@ class ContactForm(forms.Form):
 
 class RulesForm(forms.ModelForm):
     class Meta:
-        model = Rules
+        model = Rule
         fields = '__all__'

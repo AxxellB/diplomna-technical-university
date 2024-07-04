@@ -6,11 +6,14 @@
                     <h3>{{ post.name }}</h3>
                 </a>
                 <div class="posts__tags tags">
-                    <a href="#" class="{{ post.tag_color }}">{{ post.tag }}</a>
-                    {% if post.is_mature == 'Yes' %}
-                        <small style="color: red">This thread contains mature content!</small>
-                    {% endif %}
+                    <a href="#" class="{{ post.tag.color }}">{{ post.tag }}</a>
                 </div>
+                {% if is_superuser %}
+                    <div>
+                        <a href="{% url 'edit thread superuser' post.pk %}" class="btn btn-warning" style="padding: 6px 9px; font-size: 15px;">Edit</a>
+                        <a href="{% url 'delete thread superuser' post.pk %}" class="btn btn-danger" style="padding: 6px 9px; font-size: 15px;">Delete</a>
+                    </div>
+                {% endif %}
                 {% if show_buttons %}
                     <div>
                         <a href="{% url 'edit thread' post.pk %}" class="btn btn-warning" style="padding: 6px 9px; font-size: 15px;">Edit</a>
@@ -20,7 +23,7 @@
             </div>
         </div>
         <div class="posts__category"><a href="#" class="category"><i
-                class="{{ post.category_color }}"></i> {{ post.category }}</a>
+                class="{{ post.category.color }}"></i> {{ post.category }}</a>
         </div>
     </div>
     <div class="posts__section-right">

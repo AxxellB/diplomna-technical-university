@@ -11,45 +11,33 @@ from django.core.paginator import Paginator
 # Create your views here.
 from forum_main.color_maps import tag_color_map, category_color_map
 from forum_main.forms import CreatePostForm, CreateReplyForm, ContactForm, RulesForm
-from forum_main.models import Post, Reply, Rules
-
+from forum_main.models import Post, Reply, Rule, Category, Tag
 
 def forum_view(request):
-    query = request.GET.get('q', "")
+    query = request.GET.get('q', '')
+    sort_by = request.GET.get('sort', 'newest')
+
     if query != "":
-        posts = get_forum_queryset(query)
-    else:
+        posts = get_forum_queryset(query, sort_by)
+    elif sort_by == "newest":
         posts = Post.objects.all().order_by('-created_date')
+    else:
+        posts = Post.objects.all().order_by('-replies', '-views')
 
     paginator = Paginator(posts, 6)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     context = {
         'query': str(query),
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'sort_by': sort_by,
+        'is_superuser': request.user.is_superuser
     }
+
     return render(request, 'forum/forum.html', context)
 
-
-def forum_view_most_popular(request):
-        query = request.GET.get('q', "")
-        if query != "":
-            posts = get_forum_queryset(query)
-        else:
-            posts = Post.objects.all().order_by('-replies', '-views')
-
-        paginator = Paginator(posts, 6)
-
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        activate_popular = True
-        context = {
-            'query': str(query),
-            'page_obj': page_obj,
-            'activate_popular': activate_popular
-        }
-        return render(request, 'forum/forum.html', context)
 
 
 @login_required(login_url='login user')
@@ -62,11 +50,9 @@ def create_thread(request):
     else:
         form = CreatePostForm(request.POST)
         if form.is_valid():
-            tag_color = tag_color_map[form.cleaned_data['tag']]
-            category_color = category_color_map[form.cleaned_data['category']]
+            form.category = form.cleaned_data['category']
+            form.tag = form.cleaned_data['tag']
             form = form.save(commit=False)
-            form.tag_color = tag_color
-            form.category_color = category_color
             form.user = request.user
             form.save()
             return redirect('index')
@@ -81,7 +67,9 @@ def create_thread(request):
 def my_threads(request):
     if request.method == 'GET':
         user = request.user
-        my_posts = Post.objects.filter(user=user)
+        print(user)
+        my_posts = Post.objects.filter(user=user).order_by('-created_date')
+        print(my_posts)
         paginator = Paginator(my_posts, 4)
 
         page_number = request.GET.get('page')
@@ -126,10 +114,42 @@ def delete_thread(request, pk):
         current_post.delete()
         return redirect('my threads')
 
+@login_required(login_url='login user')
+def edit_thread_superuser(request, pk):
+    current_post = Post.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = CreatePostForm(instance=current_post)
+        context = {
+            'form': form,
+            'pk': pk
+        }
+    else:
+        form = CreatePostForm(request.POST, instance=current_post)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+        context = {
+            'form': form,
+            'pk': pk
+        }
+
+    return render(request, context=context, template_name='forum/edit_thread_superuser.html')
+
+@login_required(login_url='login user')
+def delete_thread_superuser(request, pk):
+    current_post = Post.objects.get(pk=pk)
+    if request.method == 'GET':
+        context = {
+            'pk': pk
+        }
+        return render(request, context=context, template_name='forum/delete_thread_superuser.html')
+    else:
+        current_post.delete()
+        return redirect('index')
 
 def thread_details(request, pk):
     current_thread = Post.objects.get(pk=pk)
-    replies = Reply.objects.filter(post=current_thread)
+    replies = Reply.objects.filter(post=current_thread).order_by('-id')
     comments_count = len(replies)
     context = {}
 
@@ -157,16 +177,25 @@ def thread_details(request, pk):
     return render(request, context=context, template_name='forum/thread_details.html')
 
 
-def get_forum_queryset(query=None):
+def get_forum_queryset(query=None, sort_by='newest'):
+    posts = []
     filtered_posts = []
     queries = query.split(" ")
     if queries:
         for q in queries:
-            posts = Post.objects.filter(
-                Q(name__icontains=q) |
-                Q(description__icontains=q)
-            ).distinct()
-
+            if sort_by == 'newest':
+                posts = Post.objects.filter(
+                    Q(name__icontains=q) |
+                    Q(description__icontains=q)
+                ).distinct().order_by('-created_date')
+            elif sort_by == 'popular':
+                posts = Post.objects.filter(
+                    Q(name__icontains=q) |
+                    Q(description__icontains=q)
+                ).distinct().order_by('-replies', '-views')
+            else:
+                # Handle invalid sort option (optional)
+                pass
             for post in posts:
                 filtered_posts.append(post)
 
@@ -208,7 +237,7 @@ def contacts(request):
 
 def rules(request):
     if request.method == 'GET':
-        rules = Rules.objects.all().order_by('id')
+        rules = Rule.objects.all().order_by('id')
         return render(request, 'common_site_pages/forum_rules.html', {'rules': rules})
 
 
@@ -227,7 +256,7 @@ def add_rule(request):
     return render(request, 'common_site_pages/create_rule.html', context)
 
 def edit_rule(request, pk):
-    current_rule = Rules.objects.get(pk=pk)
+    current_rule = Rule.objects.get(pk=pk)
     if request.method == 'GET':
         form = RulesForm(instance=current_rule)
         context = {
@@ -248,7 +277,7 @@ def edit_rule(request, pk):
 
 
 def delete_rule(request, pk):
-    current_rule = Rules.objects.get(pk=pk)
+    current_rule = Rule.objects.get(pk=pk)
     if request.method == 'GET':
         context = {
             'pk': pk
