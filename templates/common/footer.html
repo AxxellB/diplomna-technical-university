@@ -1,28 +1,28 @@
 {% load static %}
-    <footer>
-        <div class="footer">
-            <div class="container">
-                <div class="footer__logo">
-                    <div>
-                        <img src="{% static 'media/Logo.png' %}" alt="logo">TalkSpot
-                    </div>
+<footer>
+    <div class="footer">
+        <div class="container">
+            <div class="footer__logo">
+                <div>
+                    <img src="{% static 'media/Logo.png' %}" alt="logo">TalkSpot
                 </div>
-                <div class="footer__nav">
-                    <div class="footer__tline">
-                        <ul class="footer__menu" style="margin-left: 33.5%">
-                            <li><a href="{% url 'forum rules' %}">Forum Rules</a></li>
-                            <li><a href="{% url 'contacts' %}">Contact Us</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer__tline" style="margin-left: 35%">
-                        <ul class="footer__menu">
-                            <li class="footer__copyright"><span>&copy; 2024 TalkSpot Forums</span></li>
-                        </ul>
+            </div>
+            <div class="footer__nav">
+                <div class="footer__tline">
+                    <ul class="footer__menu" style="margin-left: 33.5%">
+                        <li><a href="{% url 'forum rules' %}">Forum Rules</a></li>
+                        <li><a href="{% url 'contacts' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer__tline" style="margin-left: 35%">
+                    <ul class="footer__menu">
+                        <li class="footer__copyright"><span>&copy; 2024 TalkSpot Forums</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        </div>
-    </footer>
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/velocity.min.js' %}"></script>
-    <script src="{% static 'js/app.js' %}"></script>
+    </div>
+</footer>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/velocity.min.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>

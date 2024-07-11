@@ -8,8 +8,6 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator
 
-# Create your views here.
-from forum_main.color_maps import tag_color_map, category_color_map
 from forum_main.forms import CreatePostForm, CreateReplyForm, ContactForm, RulesForm
 from forum_main.models import Post, Reply, Rule, Category, Tag
 
