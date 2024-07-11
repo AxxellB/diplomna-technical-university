@@ -41,6 +41,7 @@
                 $(window).trigger('responsivehandlers');
             }
         },
+
         searchVisibleOnMobileBtn: function() {
             var $header = app.dom.$header,
                 $btn_open = app.dom.$header.find('.js-header-search-btn-open'),

@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% load static %}
-    <main>
-        <div class="container">
-            <div class="create">
-                <form method="post" id="delete_post" action="{% url 'delete thread' pk %}">
-                    <h1 class="text-center">Are you sure you wish to delete this thread?</h1>
-                    <small style="margin-left: 37%">Warning: Deleted threads will disappear forever!</small>
-                    {% csrf_token %}
-                    <div class="col" style="margin:1.5%">
-                        <div class="create__footer" style="display: block">
-                            <a href="{% url 'my threads' %}" style="position: center"
-                               class="create__btn-cancel btn btn-success">Cancel</a>
-                            <a href="javascript:;"
-                               onclick="document.getElementById('delete_post').submit();"
-                               class="create__btn-create btn btn-danger" style="margin-left: 72%; margin-bottom: 1%">Delete
-                                Thread</a>
-                        </div>
+{% load static %}
+<main>
+    <div class="container">
+        <div class="create">
+            <form method="post" id="delete_post" action="{% url 'delete thread' pk %}">
+                <h1 class="text-center">Are you sure you wish to delete this thread?</h1>
+                <small style="margin-left: 37%">Warning: Deleted threads will disappear forever!</small>
+                {% csrf_token %}
+                <div class="col" style="margin:1.5%">
+                    <div class="create__footer" style="display: block">
+                        <a href="{% url 'my threads' %}" style="position: center"
+                           class="create__btn-cancel btn btn-success">Cancel</a>
+                        <a href="javascript:;"
+                           onclick="document.getElementById('delete_post').submit();"
+                           class="create__btn-create btn btn-danger" style="margin-left: 72%; margin-bottom: 1%">Delete
+                            Thread</a>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-    </main>
+    </div>
+</main>
 {% endblock %}
