@@ -6,11 +6,11 @@
                 <div class="posts__section-left">
                     <div style="margin-left: 55%; padding-right: 1%;margin-bottom: 0.2%">Category:</div>
                     <div class="posts__category"><a href="#" class="category"><i
-                            class="{{ post.category_color }}"></i> {{ post.category }}</a>
+                            class="{{ post.category.color }}"></i> {{ post.category }}</a>
                     </div>
                     <div style="padding-right: 1%;margin-bottom: 0.2%">Tag:</div>
                     <div style="margin-bottom: 0.1px" class="posts__tags tags">
-                        <a href="#" class="{{ post.tag_color }}">{{ post.tag }}</a>
+                        <a href="#" class="{{ post.tag.color }}">{{ post.tag }}</a>
                     </div>
                 </div>
                 <h3 class="text-center" style="border-bottom: 1.5px solid lightgray">{{ post.name }}</h3>
