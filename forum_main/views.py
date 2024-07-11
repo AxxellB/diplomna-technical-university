@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash, login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, BadHeaderError, EmailMessage
@@ -13,12 +13,15 @@ from forum_main.color_maps import tag_color_map, category_color_map
 from forum_main.forms import CreatePostForm, CreateReplyForm, ContactForm, RulesForm
 from forum_main.models import Post, Reply, Rule, Category, Tag
 
+def is_superuser(user):
+    return user.is_superuser
+
 def forum_view(request):
     query = request.GET.get('q', '')
     sort_by = request.GET.get('sort', 'newest')
 
-    if query != "":
-        posts = get_forum_queryset(query, sort_by)
+    if query != " ":
+        posts = get_forum_queryset(query)
     elif sort_by == "newest":
         posts = Post.objects.all().order_by('-created_date')
     else:
@@ -28,7 +31,6 @@ def forum_view(request):
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
     context = {
         'query': str(query),
         'page_obj': page_obj,
@@ -67,9 +69,7 @@ def create_thread(request):
 def my_threads(request):
     if request.method == 'GET':
         user = request.user
-        print(user)
         my_posts = Post.objects.filter(user=user).order_by('-created_date')
-        print(my_posts)
         paginator = Paginator(my_posts, 4)
 
         page_number = request.GET.get('page')
@@ -115,6 +115,7 @@ def delete_thread(request, pk):
         return redirect('my threads')
 
 @login_required(login_url='login user')
+@user_passes_test(is_superuser)
 def edit_thread_superuser(request, pk):
     current_post = Post.objects.get(pk=pk)
     if request.method == 'GET':
@@ -136,6 +137,7 @@ def edit_thread_superuser(request, pk):
     return render(request, context=context, template_name='forum/edit_thread_superuser.html')
 
 @login_required(login_url='login user')
+@user_passes_test(is_superuser)
 def delete_thread_superuser(request, pk):
     current_post = Post.objects.get(pk=pk)
     if request.method == 'GET':
@@ -151,7 +153,6 @@ def thread_details(request, pk):
     current_thread = Post.objects.get(pk=pk)
     replies = Reply.objects.filter(post=current_thread).order_by('-id')
     comments_count = len(replies)
-    context = {}
 
     if request.method == 'GET':
         current_thread.views += 1
@@ -177,55 +178,40 @@ def thread_details(request, pk):
     return render(request, context=context, template_name='forum/thread_details.html')
 
 
-def get_forum_queryset(query=None, sort_by='newest'):
-    posts = []
+def get_forum_queryset(query=None):
     filtered_posts = []
     queries = query.split(" ")
     if queries:
         for q in queries:
-            if sort_by == 'newest':
-                posts = Post.objects.filter(
-                    Q(name__icontains=q) |
-                    Q(description__icontains=q)
-                ).distinct().order_by('-created_date')
-            elif sort_by == 'popular':
-                posts = Post.objects.filter(
-                    Q(name__icontains=q) |
-                    Q(description__icontains=q)
-                ).distinct().order_by('-replies', '-views')
-            else:
-                # Handle invalid sort option (optional)
-                pass
-            for post in posts:
-                filtered_posts.append(post)
+            filtered_posts = Post.objects.filter(
+                Q(name__icontains=q) |
+                Q(description__icontains=q)
+            )
 
-        return list(set(filtered_posts))
-    return list(set(Post.objects))
+        return filtered_posts
 
 
 def contacts(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form = ContactForm(request.POST)
-            if form.is_valid():
-                subject = form.cleaned_data['subject']
-                client_email = form.cleaned_data['email']
-                message = form.cleaned_data['message']
-                from_email = 'axxellblaze@gmail.com'
-                content = EmailMessage(
-                    subject=subject,
-                    body=message,
-                    from_email=from_email,
-                    to=[from_email],
-                    reply_to=[client_email],
-                )
-                try:
-                    content.send()
-                    messages.success(request, 'Your email was sent successfully!')
-                    return redirect('contacts')
-                except:
-                    messages.error(request, 'Your email could not be sent! Please contact'
+            subject = form.cleaned_data['subject']
+            client_email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            from_email = 'axxellblaze@gmail.com'
+            content = EmailMessage(
+                subject=subject,
+                body=message,
+                from_email=from_email,
+                to=[from_email],
+                reply_to=[client_email],
+            )
+            try:
+                content.send()
+                messages.success(request, 'Your email was sent successfully!')
+                return redirect('contacts')
+            except:
+                messages.error(request, 'Your email could not be sent! Please contact'
                                             ' an administrator if this issue continues!')
         return render(request, "common_site_pages/contact.html", {'form': form})
     else:
@@ -240,11 +226,12 @@ def rules(request):
         rules = Rule.objects.all().order_by('id')
         return render(request, 'common_site_pages/forum_rules.html', {'rules': rules})
 
-
+@user_passes_test(is_superuser)
 def add_rule(request):
     if request.method == 'GET':
-        context = {}
-        context['form'] = RulesForm
+        context = {
+            'form': RulesForm
+        }
     else:
         form = RulesForm(request.POST)
         if form.is_valid():
@@ -255,6 +242,7 @@ def add_rule(request):
         }
     return render(request, 'common_site_pages/create_rule.html', context)
 
+@user_passes_test(is_superuser)
 def edit_rule(request, pk):
     current_rule = Rule.objects.get(pk=pk)
     if request.method == 'GET':
@@ -275,7 +263,7 @@ def edit_rule(request, pk):
 
     return render(request, 'common_site_pages/edit_rule.html', context)
 
-
+@user_passes_test(is_superuser)
 def delete_rule(request, pk):
     current_rule = Rule.objects.get(pk=pk)
     if request.method == 'GET':
