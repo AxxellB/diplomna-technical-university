@@ -18,7 +18,7 @@ def forum_view(request):
     query = request.GET.get('q', '')
     sort_by = request.GET.get('sort', 'newest')
 
-    if query != " ":
+    if query != "":
         posts = get_forum_queryset(query)
     elif sort_by == "newest":
         posts = Post.objects.all().order_by('-created_date')
