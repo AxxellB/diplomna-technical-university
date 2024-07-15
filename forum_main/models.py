@@ -20,7 +20,7 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=150)
     description = models.TextField(max_length=2000)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
