@@ -7,7 +7,7 @@
                 <form method="post" id="create_post" action="{% url 'create thread' %}">
                     {% csrf_token %}
                     <div class="create__head">
-                        <div class="create__title"><img src="{% static 'media/New_Topic.svg' %}" alt="New topic">Create
+                        <div class="create__title"><img src="{% static 'media/New_Topic.png' %}" alt="New topic">Create
                             New Thread
                         </div>
                         <span><a href="{% url 'forum rules' %}">Forum Rules</a></span>

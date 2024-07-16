@@ -7,20 +7,20 @@
                 <form method="post" id="edit_post" action="{% url 'edit thread' pk %}">
                     {% csrf_token %}
                     <div class="create__head">
-                        <div class="create__title"><img src="{% static 'media/New_Topic.svg' %}" alt="New topic">Edit Thread
+                        <div class="create__title"><img src="{% static 'media/New_Topic.png' %}" alt="New topic">Edit Thread
                         </div>
                         <span>Forum Guidelines</span>
                     </div>
                     <div class="create__section">
                         <label class="create__label" for="title">Thread Title</label>
-                        <input type="text" class="form-control" name="name" value="{{ form.name.value }}" id="id_name" placeholder="Add here">
+                        <input type="text" class="form-control" name="name" value="{{ form.name.value }}" id="title" placeholder="Add here">
                         {{ form.name.errors }}
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="create__section">
                                 <label class="create__label" for="category">Select Category</label>
-                                <label class="custom-select">
+                                <label class="custom-select" id="category">
                                     {{ form.category }}
                                 </label>
                             </div>
@@ -28,14 +28,14 @@
                         <div class="col-md-6">
                             <div class="create__section">
                                 <label class="create__label" for="tags">Add Tag</label>
-                                <label class="custom-select">
+                                <label class="custom-select" id="tags">
                                     {{ form.tag }}
                                 </label>
                             </div>
                         </div>
                         <div class="create__section create__textarea" style="margin-left:1.5%">
                             <label class="create__label" for="description">Description</label>
-                            <textarea style="height: 300px; width: 900px;" class="form-control" name="description" id="id_description"
+                            <textarea style="height: 300px; width: 900px;" class="form-control" name="description" id="description"
                                       placeholder="Lets write something cool!">{{ form.description.value }}</textarea>
                                 {{ form.description.errors }}
                         </div>

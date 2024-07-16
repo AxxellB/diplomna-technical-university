@@ -53,6 +53,18 @@ img {
   height: auto;
   image-rendering: auto;
 }
+a {
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-transition: color 0.4s;
+  -moz-transition: color 0.4s;
+  -ms-transition: color 0.4s;
+  -o-transition: color 0.4s;
+  transition: color 0.4s;
+}
 a:hover,
 a:visited,
 a:active,
@@ -64,6 +76,14 @@ ol {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+[class^="icon-"] {
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 @media only screen and (min-width: 1040px) {
   [data-visible='mobile'] {
@@ -77,6 +97,13 @@ ol {
 }
 .container p{
     wrap: normal;
+}
+.post-title,
+.post-description,
+.reply-content
+{
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 input {
   margin: 0;
