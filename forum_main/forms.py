@@ -37,4 +37,4 @@ class ContactForm(forms.Form):
 class RulesForm(forms.ModelForm):
     class Meta:
         model = Rule
-        fields = '__all__'
+        exclude = ('user',)

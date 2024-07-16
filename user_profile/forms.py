@@ -2,6 +2,71 @@ from django import forms
 from django.http import request
 
 
+class ChangePasswordForm(forms.Form):
+    error_messages = {
+        'password_mismatch': 'The two passwords did not match.',
+        'not_changed': 'New password cannot be the same as the old one.',
+        'password_incorrect': 'The password you entered is incorrect.'
+    }
+    old_password = forms.CharField(
+        label='Old Password',
+        widget=forms.PasswordInput()
+    )
+    new_password1 = forms.CharField(
+        label='New Password',
+        widget=forms.PasswordInput(),
+    )
+    new_password2 = forms.CharField(
+        label='Confirm New Password',
+        widget=forms.PasswordInput()
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+
+    def clean_old_password(self):
+        """
+        Validate that the password field is correct.
+        """
+        old_password = self.cleaned_data["old_password"]
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError(
+                self.error_messages['password_incorrect'],
+                code='password_incorrect',
+            )
+        return old_password
+
+    def clean_new_password1(self):
+        old_password = self.user.password
+        new_password1 = self.cleaned_data.get('new_password1')
+        if new_password1 and old_password:
+            if new_password1 == old_password:
+                raise forms.ValidationError(
+                    self.error_messages['not_changed'],
+                    code='not_changed',
+                )
+        return new_password1
+
+    def clean_new_password2(self):
+        new_password1 = self.cleaned_data.get('new_password1')
+        new_password2 = self.cleaned_data.get('new_password2')
+        if new_password1 and new_password2:
+            if new_password1 != new_password2:
+                raise forms.ValidationError(
+                    self.error_messages['password_mismatch'],
+                    code='password_mismatch',
+                )
+        return new_password2
+
+    def save(self, commit=True):
+        new_password1 = self.cleaned_data["new_password1"]
+        self.user.password = new_password1
+        if commit:
+            self.user.save()
+        return self.user
+
+
 class ChangeEmailForm(forms.Form):
     error_messages = {
         'email_mismatch': 'The two email addresses fields did not match.',

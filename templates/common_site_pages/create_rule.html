@@ -6,7 +6,7 @@
             <label class="create__label" for="rule">New Rule</label>
             <form method="post" action="{% url 'add rule' %}">
                 {% csrf_token %}
-                <textarea class="form-control" name="new_rule" id="rule"
+                <textarea class="form-control" name="text" id="rule"
                           placeholder="Write new rule here!"></textarea>
                 <button class="btn btn-success" type="submit">Add Rule</button>
             </form>

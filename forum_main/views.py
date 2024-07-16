@@ -232,6 +232,8 @@ def add_rule(request):
     else:
         form = RulesForm(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
+            form.user = request.user
             form.save()
             return redirect('forum rules')
         context = {
